@@ -1,131 +1,188 @@
-# Events API
+# Events API - Comprehensive Documentation
 
-This is a simple API built with Ruby on Rails that allows users to manage events, register for events, and view their registrations.
+## Overview
+This Ruby on Rails API provides a robust platform for event management, user registration, and event attendance tracking. Built with Rails 8.x and Ruby 3.x, it features JWT authentication, QR code functionality, and a RESTful interface for managing events and registrations.
 
-## Features
+## Table of Contents
+- [System Requirements](#system-requirements)
+- [Installation](#installation)
+- [Configuration](#configuration)
+- [API Endpoints](#api-endpoints)
+- [Authentication](#authentication)
+- [Event Management](#event-management)
+- [Registration System](#registration-system)
+- [QR Code Functionality](#qr-code-functionality)
+- [Testing](#testing)
+- [Deployment](#deployment)
+- [Troubleshooting](#troubleshooting)
+- [Contributing](#contributing)
 
-- User Authentication using Devise
+## System Requirements
+- **Ruby** 3.x
+- **Rails** 8.x
+- **PostgreSQL** 12+ (recommended)
+- **Node.js** (for asset compilation)
+- **Yarn** (for JavaScript dependencies)
 
-- Events management: create, update, delete events
+## Installation
 
-- Event reservations: register for events and view registrations
-
-- Health check endpoint
-
-## Prerequisites
-
-Before running the application, make sure you have the following installed:
-
-- Ruby 3.x
-
-- Rails 8.x
-
-- PostgreSQL (or your preferred database)
-
-
-## Setup
-
-1\. Clone the repository
-
-```bash
-
+# Clone the repository
 git clone https://github.com/Mahmoud-Mohamed-3/events_task.git
-
 cd events_task
 
-Install dependencies
-
-
+# Install dependencies
 bundle install
-
-Set up the database
-
-
+# Set up the database
 rails db:create
-
 rails db:migrate
+rails db:seed
+Configuration
+Create a .env file in the project root:
 
-rails db:seed  
+env
 
-Configure your environment variables. Make sure you have the DEVISE_JWT_SECRET_KEY and other necessary credentials set up in your environment.
+DEVISE_JWT_SECRET_KEY=your_secure_jwt_secret_key_here
+DATABASE_URL=postgres://username:password@localhost:5432/events_api_development
+RAILS_MAX_THREADS=5
+For production, add:
 
-Start the server
+env
 
-
-rails server
-
-Your app will now be available at http://localhost:3000.
-
+RAILS_ENV=production
+SECRET_KEY_BASE=your_production_secret_key
 API Endpoints
+Base URL
+Development: http://localhost:3000
+
+
+All endpoints are versioned under /api/v1/
 
 Authentication
+JWT Token System
+Include token in requests:
 
-POST /users/sign_in
 
-Endpoint to log in a user.
+Authorization: Bearer <your_jwt_token>
+Endpoints
+User Registration
 
-Requires email and password.
 
 POST /users
+Content-Type: application/json
 
-Endpoint to register a new user.
+{
+  "user": {
+    "first_name": "John",
+    "last_name": "Doe",
+    "email": "john@example.com",
+    "password": "securepassword123",
+    "password_confirmation": "securepassword123"
+  }
+}
+User Login
 
-Requires first_name, last_name, email, and password.
 
-Events
+POST /users/sign_in
+Content-Type: application/json
+
+{
+  "user": {
+    "email": "john@example.com",
+    "password": "securepassword123"
+  }
+}
+Event Management
+Endpoints
+List All Events
+
 
 GET /api/v1/events
+Create Event
 
-Retrieves a list of all events.
 
 POST /api/v1/events
+Authorization: Bearer <your_jwt_token>
+Content-Type: application/json
 
-Creates a new event (requires authentication).
+{
+  "event": {
+    "title": "Tech Conference",
+    "description": "Annual technology conference",
+    "date": "2023-12-15T09:00:00Z",
+    "num_of_attendees": 100,
+    "location": "Convention Center"
+  }
+}
+Update Event
 
-Requires: title, description, date, num_of_attendees.
 
 PUT /api/v1/events/:id
+Authorization: Bearer <your_jwt_token>
+Delete Event
 
-Updates an event by its ID (requires authentication).
-
-Requires: title, description, date, num_of_attendees.
 
 DELETE /api/v1/events/:id
+Authorization: Bearer <your_jwt_token>
+Registration System
+Register for Event
 
-Deletes an event by its ID (requires authentication).
 
-GET /api/v1/event/reservations/:id
-
-Gets a list of reservations for a specific event by event ID.
-
-GET /api/v1/your_events
-
-Retrieves a list of events created by the authenticated user.
-
-Registrations
 
 POST /api/v1/events/:id/register
+Authorization: Bearer <your_jwt_token>
+View Your Registrations
 
-Registers the user for a specific event (requires authentication).
-
-Requires the event ID.
-
-GET /api/v1/event/registrations/:id
-
-Retrieves the registration information for a specific event and user.
 
 GET /api/v1/your_reservations
+Authorization: Bearer <your_jwt_token>
+QR Code Functionality
+Generated for each registration
 
-Retrieves the list of events the authenticated user is registered for.
+Stored in public/qrcodes/
 
+Accessible via URL: http://localhost:3000/qrcodes/registration_1.svg
+
+Contains:
+
+Event details
+
+Attendee information
+
+Registration timestamp
 
 Testing
 
-To run the tests for this application, use the following command:
-
-
 bundle exec rspec
+Test coverage includes:
 
-Make sure you have all the required environment variables set up for JWT authentication.
+Authentication flows
+
+Event CRUD operations
+
+Registration scenarios
+
+QR code generation
 
 
+Troubleshooting
+Common Issues:
+
+JWT errors: Verify DEVISE_JWT_SECRET_KEY
+
+Database issues: Check DATABASE_URL format
+
+QR codes: Ensure public/qrcodes/ is writable
+
+View Logs:
+
+tail -f log/development.log
+Contributing
+Fork the repository
+
+Create a feature branch
+
+Commit your changes
+
+Push to the branch
+
+Open a Pull Request
