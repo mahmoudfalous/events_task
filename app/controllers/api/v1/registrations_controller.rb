@@ -19,13 +19,13 @@ module Api
         registration = event.registrations.create(user: current_user)
 
         if registration.persisted?
-          registration.update_remaining_seats  # 🔹 تحديث المقاعد المتبقية هنا
+          registration.update_remaining_seats
           qr_code_url = request.base_url + registration.generate_qr
           render json: {
             data: {
               qr_code_url: qr_code_url,
               user_id: current_user.id,
-              remaining_seats: event.remaining_seats  # 🔹 عرض المقاعد المتبقية
+              remaining_seats: event.remaining_seats
             },
             message: "Registration Created"
           }, status: :created

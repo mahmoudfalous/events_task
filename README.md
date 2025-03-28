@@ -13,9 +13,7 @@ This Ruby on Rails API provides a robust platform for event management, user reg
 - [Configuration](#configuration)
 
 - [API Endpoints](#api-endpoints)
-
-- [Authentication](#authentication)
-
+- [Users](#users)
 - [Event Management](#event-management)
 
 - [Registration System](#registration-system)
@@ -40,155 +38,184 @@ This Ruby on Rails API provides a robust platform for event management, user reg
 
 - **Node.js** (for asset compilation)
 
-- **Yarn** (for JavaScript dependencies)
+- **Npm** (for JavaScript dependencies)
 
 ## Installation
 
-# Clone the repository
-
+### Clone the repository
+```gitexclude
 git clone https://github.com/Mahmoud-Mohamed-3/events_task.git
-
 cd events_task
+```
 
-# Install dependencies
-
+### Install dependencies
+```bash
 bundle install
+```
 
-# Set up the database
 
+### Set up the database
+```bash
 rails db:create
 
 rails db:migrate
 
 rails db:seed
+```
 
-Configuration
 
-Create a .env file in the project root:
+## Configuration
 
-env
+### Create a .env file in the project root:
 
-DEVISE_JWT_SECRET_KEY=your_secure_jwt_secret_key_here
 
-DATABASE_URL=postgres://username:password@localhost:5432/events_api_development
+###### **DEVISE_JWT_SECRET_KEY=your_secure_jwt_secret_key_here**
 
-RAILS_MAX_THREADS=5
+###### **DATABASE_URL=  postgres://username:password@localhost:5432/events_api_development**
 
-For production, add:
+## API Endpoints
 
-env
+### Users
+####  User Registration
 
-API Endpoints
-
-Base URL
-
-Development: http://localhost:3000
-
-All endpoints are versioned under /api/v1/
-
-Authentication
-
-JWT Token System
-
-Include token in requests:
-
-Authorization: Bearer <your_jwt_token>
-
-Endpoints
-
-User Registration
-
-POST /users
-
+```http request
+POST http://127.0.0.1:3000/users
 Content-Type: application/json
 
 {
 
-  "user": {
-
-    "first_name": "John",
-
-    "last_name": "Doe",
-
-    "email": "john@example.com",
-
-    "password": "securepassword123",
-
-  }
+"user": {
+  "email": "email@example.com",
+  "password": "password123",
+  "first_name": "John",
+  "last_name": "Doe"
+ }
 
 }
+```
 
-User Login
+#### User Login
 
-POST /users/sign_in
-
+```http request
+POST http://127.0.0.1:3000/users/sign_in
 Content-Type: application/json
 
 {
 
-  "user": {
-
-    "email": "john@example.com",
-
-    "password": "securepassword123"
-
-  }
+"user": {
+  "email": "email@example.com",
+  "password": "password123"
+ }
 
 }
+```
 
-Event Management
+#### User Logout
 
-Endpoints
-
-List All Events
-
-GET /api/v1/events
-
-Create Event
-
-POST /api/v1/events
-
+```http request
+DELETE http://127.0.0.1:3000/users/sign_out
 Authorization: Bearer <your_jwt_token>
+```
 
+#### Delete User Account
+
+```http request
+DELETE http://127.0.0.1:3000/users
+Authorization: Bearer <your_jwt_token>
+```
+
+
+### Event Management
+
+#### List All Events
+```http request
+GET http://127.0.0.1:3000/api/v1/events
+```
+#### sample response
+```json
+{
+    "data": [
+        {
+            "id": 1,
+            "title": "Tech Conference",
+            "description": "Annual technology conference",
+            "date": "2023-12-15T09:00:00.000Z",
+            "num_of_attendees": 100,
+            "remaining_seats": 20,
+            "user_id": 1,
+            "created_at": "2022-03-29T14:00:00.000Z",
+            "updated_at": "2022-03-29T14:00:00.000Z"
+        }
+    ]
+}
+```
+
+
+#### Create Event
+
+```http request
+POST http://127.0.0.1:3000/api/v1/events
+Authorization: Bearer <your_jwt_token>
+Content-Type: application/json
+{
+ "event": {
+    "title": "Tech Conference",
+    "description": "Annual technology conference",
+    "date": "2023-12-15T09:00:00Z",
+    "num_of_attendees": 100,
+    "date": "2023-12-15T09:00:00Z"
+}
+}
+```
+
+#### Update Event
+
+```http request
+PUT http://127.0.0.1:3000/events/:id
+Authorization: Bearer <your_jwt_token>
 Content-Type: application/json
 
 {
-
-  "event": {
-
-    "title": "Tech Conference",
-
-    "description": "Annual technology conference",
-
-    "date": "2023-12-15T09:00:00Z",
-
-    "num_of_attendees": 100,
-
-    "location": "Convention Center"
-
-  }
-
+"event": {
+    "title": "Tech Conference",
+    "description": "Annual technology conference",
+    "date": "2023-12-15T09:00:00Z",
+    "num_of_attendees": 100,
+    "date": "2023-12-15T09:00:00Z"
+}
 }
 
-Update Event
+```
 
-PUT /api/v1/events/:id
+#### Delete Event
 
+```http request
+DELETE http://127.0.0.1:3000/api/v1/events/:id
 Authorization: Bearer <your_jwt_token>
+```
+#### Get Your Event Registrations
 
-Delete Event
+```http request
+GET http://127.0.0.1:3000/api/v1/event/reservations/:id
+```
 
-DELETE /api/v1/events/:id
 
+#### Get Your Events
+
+```http request
+GET http://127.0.0.1:3000/api/v1/your_events
+```
+
+### Registration System
+
+
+#### Register for Event
+
+```http request
+POST http://127.0.0.1:3000/api/v1/events/:id/register
 Authorization: Bearer <your_jwt_token>
+```
 
-Registration System
-
-Register for Event
-
-POST /api/v1/events/:id/register
-
-Authorization: Bearer <your_jwt_token>
 
 View Your Registrations
 
