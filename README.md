@@ -276,7 +276,7 @@ gem 'rqrcode'
 
 #### key functionality
 - Each registration generates a unique QR code
-- Stored in public/qrcodes/
+- Stored in active storge 
 - Accessible via URL: http://localhost:3000/qrcodes/registration_#{id}.svg
 - When scanned, the QR code contains:
   - Event details
