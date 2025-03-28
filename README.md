@@ -22,11 +22,8 @@ This Ruby on Rails API provides a robust platform for event management, user reg
 
 - [Testing](#testing)
 
-- [Deployment](#deployment)
-
 - [Troubleshooting](#troubleshooting)
 
-- [Contributing](#contributing)
 
 ## System Requirements
 
@@ -187,7 +184,7 @@ Content-Type: application/json
 
 ```
 
-#### Delete Event
+ #### Delete Event
 
 ```http request
 DELETE http://127.0.0.1:3000/api/v1/events/:id
@@ -200,7 +197,7 @@ GET http://127.0.0.1:3000/api/v1/event/reservations/:id
 ```
 
 
-#### Get Your Events
+#### Get Your Events 
 
 ```http request
 GET http://127.0.0.1:3000/api/v1/your_events
@@ -217,64 +214,72 @@ Authorization: Bearer <your_jwt_token>
 ```
 
 
-View Your Registrations
+#### View An Event Registration
+```http request
+GET http://127.0.0.1:3000/api/v1/event/registrations/:id
+```
 
-GET /api/v1/your_reservations
+#### View Your Registrations
 
+```http request
+GET http://127.0.0.1:3000/api/v1/your_reservations
 Authorization: Bearer <your_jwt_token>
+```
 
-QR Code Functionality
 
-Generated for each registration
+### QR Code Functionality
+ Use That Gem to generate QR code for each registration
+```gitexclude
+gem 'rqrcode'
+```
 
-Stored in public/qrcodes/
+#### key functionality
+- Each registration generates a unique QR code
+- Stored in public/qrcodes/
+- Accessible via URL: http://localhost:3000/qrcodes/registration_#{id}.svg
+- When scanned, the QR code contains:
+  - Event details
+  - Attendee information
+  - Registration timestamp
+  - The URL to view the registration details : http://127.0.0.1:3000/api/v1/event/registrations/:id
 
-Accessible via URL: http://localhost:3000/qrcodes/registration_1.svg
 
-Contains:
-
-Event details
-
-Attendee information
-
-Registration timestamp
-
-Testing
-
+## Testing
+ ### Run That Command to test the application
+```gitexclude
 bundle exec rspec
+```
+### Used Gems for testing
+```gitexclude
+gem 'rspec-rails'
+gem 'factory_bot_rails'
+gem 'faker'
+```
 
-Test coverage includes:
+### Test coverage includes:
 
-Authentication flows
+- Authentication flows
 
-Event CRUD operations
+- Event CRUD operations
 
-Registration scenarios
+- Registration scenarios
 
-QR code generation
+- QR code generation
 
-Troubleshooting
 
-Common Issues:
 
-JWT errors: Verify DEVISE_JWT_SECRET_KEY
+## Troubleshooting
 
-Database issues: Check DATABASE_URL format
+### Common Issues:
 
-QR codes: Ensure public/qrcodes/ is writable
+ - JWT errors: Verify DEVISE_JWT_SECRET_KEY
 
-View Logs:
+- Database issues: Check DATABASE_URL format
 
-tail -f log/development.log
+- QR codes: Ensure public/qrcodes/ is writable and created
 
-Contributing
+- View Logs:
 
-Fork the repository
+  - tail -f log/development.log
 
-Create a feature branch
 
-Commit your changes
-
-Push to the branch
-
-Open a Pull Request
