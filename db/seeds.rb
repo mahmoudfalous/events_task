@@ -7,7 +7,7 @@
 #   ["Action", "Comedy", "Drama", "Horror"].each do |genre_name|
 #     MovieGenre.find_or_create_by!(name: genre_name)
 #   end
-
+ActiveStorage::PurgeJob.queue_adapter = :inline
 require 'faker'
 
 # Clear existing data

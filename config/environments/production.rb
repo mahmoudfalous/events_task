@@ -84,7 +84,10 @@ Rails.application.configure do
   #   "example.com",     # Allow requests from example.com
   #   /.*\.example\.com/ # Allow requests from subdomains like `www.example.com`
   # ]
-  #
+  # Disable queueing for ActiveStorage jobs (this ensures no background job is needed)
+  config.active_storage.queue = nil
+
+
   # Skip DNS rebinding protection for the default health check endpoint.
   # config.host_authorization = { exclude: ->(request) { request.path == "/up" } }
 end

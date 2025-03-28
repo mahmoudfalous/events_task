@@ -17,6 +17,7 @@ module EventsTask
     config.autoload_lib(ignore: %w[assets tasks])
     config.middleware.use ActionDispatch::Cookies
     config.middleware.use ActionDispatch::Session::CookieStore, key: "_your_app_session"
+    config.active_job.queue_adapter = :inline
 
     # Configuration for the application, engines, and railties goes here.
     #

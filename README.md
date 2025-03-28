@@ -11,7 +11,7 @@ This Ruby on Rails API provides a robust platform for event management, user reg
 - [Installation](#installation)
 
 - [Configuration](#configuration)
-
+- [Docker Setup](#docker-setup)
 - [API Endpoints](#api-endpoints)
 - [Users](#users)
 - [Event Management](#event-management)
@@ -69,6 +69,47 @@ rails db:seed
 ###### **DEVISE_JWT_SECRET_KEY=your_secure_jwt_secret_key_here**
 
 ###### **DATABASE_URL=  postgres://username:password@localhost:5432/events_api_development**
+## Docker Setup
+### Requirements
+#### Ensure Docker and Docker Compose are installed on your system. Follow the official documentation for installation:
+
+- Install Docker
+
+- Install Docker Compose
+
+- Running the Project with Docker
+##### To build and start the Docker containers:
+
+```gitexclude
+docker compose up --build -d
+```
+
+**This command will:**
+
+- Build the Docker images (if not already built)
+
+- Start the containers in detached mode (in the background)
+
+**Wait for Database to be Ready**
+Before running any commands that interact with the database, ensure the database container is fully initialized. You can check the status by running:
+```gitexclude
+docker compose ps
+```
+
+**Once the database container is healthy, you can proceed.**
+
+**Running Database Migrations and Seeding**
+To run the database migrations and seed the database:
+
+- Run migrations:
+```gitexclude
+docker compose run web bundle exec rails db:migrate
+```
+
+- Seed the database:
+```gitexclude
+docker compose run web bundle exec rails db:seed
+```
 
 ## API Endpoints
 
