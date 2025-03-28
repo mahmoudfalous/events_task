@@ -20,7 +20,8 @@ module Api
 
         if registration.persisted?
           registration.update_remaining_seats
-          qr_code_url = request.base_url + registration.generate_qr
+          # qr_code_url = Rails.application.routes.url_helpers.rails_blob_url(object.qrcode, host: "http://localhost:3000")
+          qr_code_url = url_for(registration.qr_code)
           render json: {
             data: {
               qr_code_url: qr_code_url,
