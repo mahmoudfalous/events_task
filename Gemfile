@@ -69,7 +69,7 @@ gem "devise-jwt"
 gem "active_model_serializers"
 
 gem "rack-cors"
-gem "rqrcode", "~> 2.2"
+gem "rqrcode", "~> 3.0"
 
 gem "rspec-rails", "~> 7.1"
 
