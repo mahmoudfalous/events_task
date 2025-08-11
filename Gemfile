@@ -74,4 +74,4 @@ gem "rqrcode", "~> 3.1"
 gem "rspec-rails", "~> 7.1"
 
 gem "faker"
-gem "factory_bot_rails", "~> 6.4", groups: [ :development, :test ]
+gem "factory_bot_rails", "~> 6.5", groups: [ :development, :test ]
